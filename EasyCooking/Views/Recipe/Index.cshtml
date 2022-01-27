@@ -3,93 +3,146 @@
 @{
     ViewData["Title"] = "Index";
 }
+@*@section Styles
+    {
+        <style type="text/css">
+           .Header{
+               display: flex;
 
-<h1>Index</h1>
+           }
+        </style>
+    }*@
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserProfileId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VideoUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Creator)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrepTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CookTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ServingAmount)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfileId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VideoUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Creator)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrepTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CookTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServingAmount)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="d-flex justify-content-between">
+    <h1>Explore New Recipies!</h1>
+    <div>
+        <h2>Filter By Category</h2>
+        <input placeholder="Category..." />
+    </div>
+    <div>
+        <a asp-action="Create">Add New Recipe</a>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+        <div class="col-4">
+            <a asp-action="Details">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">By: @item.Creator</p>
+
+                    </div>
+
+                </div>
+            </a>
+            </div>
+        }
+        </div>
+    </div>
+        @*@foreach (var item in Model)
+                {
+                    <div class="Card">
+                        <div>
+                            <img class="Image" src="@item.ImageUrl" alt="Image of Food Item" />
+                        </div>
+                        <div>
+                            <h1>@item.Title</h1>
+                            <button>Favorite</button>
+                        </div>
+                        <div>
+                            <h3>By: <strong>@item.Creator</strong></h3>
+                        </div>
+                    </div>
+                }
+            </div>*@
+        @*<p>
+                <a asp-action="Create">Create New</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserProfileId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CategoryId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImageUrl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VideoUrl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Creator)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrepTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CookTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ServingAmount)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserProfileId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CategoryId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VideoUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Creator)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrepTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CookTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ServingAmount)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>*@

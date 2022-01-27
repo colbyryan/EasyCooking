@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EasyCooking.Repositories;
+using EasyCooking.Models;
+using System.Collections.Generic;
 
 namespace EasyCooking.Controllers
 {
@@ -15,8 +17,8 @@ namespace EasyCooking.Controllers
             }
     public ActionResult Index()
         {
-            var recipes = _recipeRepository.GetAll();
-            return View(recipes);
+            List<Recipe> recipe = _recipeRepository.GetAll();
+            return View(recipe);
         }
 
         // GET: RecipeController/Details/5
