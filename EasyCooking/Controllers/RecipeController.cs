@@ -3,18 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using EasyCooking.Repositories;
 using EasyCooking.Models;
 using System.Collections.Generic;
+using EasyCooking.Models.ViewModels;
+using System.Security.Claims;
 
 namespace EasyCooking.Controllers
 {
     public class RecipeController : Controller
     {
-
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IRecipeRepository _recipeRepository;
-        public RecipeController(IRecipeRepository recipeRepository)
+        public RecipeController(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository)
         // GET: RecipeController
             {
+            _categoryRepository = categoryRepository;
             _recipeRepository = recipeRepository;
             }
+
     public ActionResult Index()
         {
             List<Recipe> recipe = _recipeRepository.GetAll();
@@ -24,27 +28,41 @@ namespace EasyCooking.Controllers
         // GET: RecipeController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var recipe = _recipeRepository.GetById(id);
+            if (recipe != null)
+            {
+                return View(recipe);
+            } 
+            else
+            {
+                return NotFound();
+            }
         }
+
 
         // GET: RecipeController/Create
         public ActionResult Create()
         {
-            return View();
+            var vm = new RecipeViewModel();
+            vm.CategoryOptions = _categoryRepository.GetAll();
+            return View(vm);
         }
 
         // POST: RecipeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(RecipeViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                vm.Recipe.UserProfileId = GetCurrentUserProfileId();
+
+                _recipeRepository.Add(vm.Recipe);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(vm);
             }
         }
 
@@ -88,6 +106,11 @@ namespace EasyCooking.Controllers
             {
                 return View();
             }
+        }
+        private int GetCurrentUserProfileId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
         }
     }
 }
