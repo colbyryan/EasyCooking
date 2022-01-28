@@ -19,7 +19,7 @@
         @foreach (var item in Model)
         {
         <div class="col-4">
-            <a asp-action="Details">
+            <a asp-action="Details" asp-route-id="@item.Id">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
                     <div class="card-body">

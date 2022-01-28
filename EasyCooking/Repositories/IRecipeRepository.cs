@@ -8,5 +8,6 @@ namespace EasyCooking.Repositories
         void Add(Recipe recipe);
         List<Recipe> GetAll();
         Recipe GetById(int Id);
+        void UpdateRecipe(Recipe recipe);
     }
 }

@@ -93,15 +93,15 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Title, UserProfileId, CategoryId, ImageUrl, VideoUrl, Creator, Description, PrepTime, CookTime, ServingAmount
+                                    SELECT Id, Title, UserProfileId, CategoryId, ImageUrl, VideoUrl, Creator, Description, PrepTime, CookTime, ServingAmount
                                     FROM Recipe
                                     WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", Id);
 
-                    Recipe recipe = null;
-
                     var reader = cmd.ExecuteReader();
+
+                    Recipe recipe = null;
                     if (reader.Read())
                     {
                         recipe = new Recipe
@@ -110,8 +110,8 @@ namespace EasyCooking.Repositories
                             Title = reader.GetString(reader.GetOrdinal("Title")),
                             UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
                             CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
-                            VideoUrl = reader.GetString(reader.GetOrdinal("VideoUrl")),
+                            ImageUrl = GetNullableString(reader, "ImageUrl"),
+                            VideoUrl = GetNullableString(reader, "VideoUrl"),
                             Creator = reader.GetString(reader.GetOrdinal("Creator")),
                             Description = reader.GetString(reader.GetOrdinal("Description")),
                             PrepTime = reader.GetInt32(reader.GetOrdinal("PrepTime")),
@@ -154,5 +154,44 @@ namespace EasyCooking.Repositories
                 }
             }
         }
+        public void UpdateRecipe(Recipe recipe)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Recipe 
+                            SET 
+                                Title = @title,
+                                UserProfileId = @userProfileId,
+                                CategoryId = @categoryId,
+                                ImageUrl = @imageUrl,
+                                VideoUrl = @videoUrl,
+                                Creator = @creator,
+                                Description = @description,
+                                PrepTime = @prepTime,
+                                CookTime = @cookTime,
+                                ServingAmount = @servingAmount
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@title", recipe.Title);
+                    cmd.Parameters.AddWithValue("@userProfileId", recipe.UserProfileId);
+                    cmd.Parameters.AddWithValue("@categoryId", recipe.CategoryId == null ? DBNull.Value : recipe.CategoryId);
+                    cmd.Parameters.AddWithValue("@imageUrl", recipe.ImageUrl == null ? DBNull.Value : recipe.ImageUrl);
+                    cmd.Parameters.AddWithValue("@videoUrl", recipe.VideoUrl == null ? DBNull.Value : recipe.VideoUrl);
+                    cmd.Parameters.AddWithValue("@creator", recipe.Creator);
+                    cmd.Parameters.AddWithValue("@description", recipe.Description);
+                    cmd.Parameters.AddWithValue("@prepTime", recipe.PrepTime);
+                    cmd.Parameters.AddWithValue("@cookTime", recipe.CookTime);
+                    cmd.Parameters.AddWithValue("@servingAmount", recipe.ServingAmount);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
