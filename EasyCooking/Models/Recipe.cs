@@ -6,7 +6,7 @@ namespace EasyCooking.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public int UserProfileId { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public string ImageUrl { get; set; }
         public string VideoUrl { get; set; }
         public string Creator { get; set; }

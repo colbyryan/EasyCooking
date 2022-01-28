@@ -2,6 +2,7 @@
 using EasyCooking.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 
 namespace EasyCooking.Repositories
@@ -140,9 +141,9 @@ namespace EasyCooking.Repositories
 
                     cmd.Parameters.AddWithValue("@title", recipe.Title);
                     cmd.Parameters.AddWithValue("@userProfileId", recipe.UserProfileId);
-                    cmd.Parameters.AddWithValue("@categoryId", recipe.CategoryId);
-                    cmd.Parameters.AddWithValue("@imageUrl", recipe.ImageUrl);
-                    cmd.Parameters.AddWithValue("@videoUrl", recipe.VideoUrl);
+                    cmd.Parameters.AddWithValue("@categoryId", recipe.CategoryId == null ? DBNull.Value : recipe.CategoryId);
+                    cmd.Parameters.AddWithValue("@imageUrl", recipe.ImageUrl == null ? DBNull.Value : recipe.ImageUrl);
+                    cmd.Parameters.AddWithValue("@videoUrl", recipe.VideoUrl == null ? DBNull.Value : recipe.VideoUrl);
                     cmd.Parameters.AddWithValue("@creator", recipe.Creator);
                     cmd.Parameters.AddWithValue("@description", recipe.Description);
                     cmd.Parameters.AddWithValue("@prepTime", recipe.PrepTime);

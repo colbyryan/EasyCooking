@@ -5,6 +5,7 @@ using EasyCooking.Models;
 using System.Collections.Generic;
 using EasyCooking.Models.ViewModels;
 using System.Security.Claims;
+using System;
 
 namespace EasyCooking.Controllers
 {
@@ -60,8 +61,9 @@ namespace EasyCooking.Controllers
                 _recipeRepository.Add(vm.Recipe);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                vm.CategoryOptions = _categoryRepository.GetAll();
                 return View(vm);
             }
         }
