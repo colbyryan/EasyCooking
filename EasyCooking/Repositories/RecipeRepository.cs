@@ -2,6 +2,7 @@
 using EasyCooking.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace EasyCooking.Repositories
 {
@@ -14,6 +15,17 @@ namespace EasyCooking.Repositories
             _config = config;
         }
 
+        private string GetNullableString(SqlDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+            {
+                return null;
+            }
+            return reader.GetString(ordinal);
+        }
+
+
         public SqlConnection Connection
         {
             get
@@ -21,7 +33,7 @@ namespace EasyCooking.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        public Recipe GetAll()
+        public List<Recipe> GetAll()
         {
             using (SqlConnection conn = Connection)
             {
@@ -33,25 +45,37 @@ namespace EasyCooking.Repositories
                                     FROM Recipe
                                    ";
 
-                    Recipe recipe = null;
-
                     var reader = cmd.ExecuteReader();
-                    if (reader.Read())
+
+                    List<Recipe> recipe = new List<Recipe>();
+                    while (reader.Read())
                     {
-                        recipe = new Recipe
+                        var Id = reader.GetInt32(reader.GetOrdinal("Id"));
+                        var Title = reader.GetString(reader.GetOrdinal("Title"));
+                        var UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"));
+                        var CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId"));
+                        var ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
+                        var VideoUrl = GetNullableString(reader, "VideoUrl");
+                        var Creator = reader.GetString(reader.GetOrdinal("Creator"));
+                        var Description = reader.GetString(reader.GetOrdinal("Description"));
+                        var PrepTime = reader.GetInt32(reader.GetOrdinal("PrepTime"));
+                        var CookTime = reader.GetInt32(reader.GetOrdinal("CookTime"));
+                        var ServingAmount = reader.GetString(reader.GetOrdinal("ServingAmount"));
+                        Recipe r = new Recipe
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Title = reader.GetString(reader.GetOrdinal("Title")),
-                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
-                            VideoUrl = reader.GetString(reader.GetOrdinal("VideoUrl")),
-                            Creator = reader.GetString(reader.GetOrdinal("Creator")),
-                            Description = reader.GetString(reader.GetOrdinal("Description")),
-                            PrepTime = reader.GetInt32(reader.GetOrdinal("PrepTime")),
-                            CookTime = reader.GetInt32(reader.GetOrdinal("CookTime")),
-                            ServingAmount = reader.GetString(reader.GetOrdinal("ServingAmount")),
+                            Id = Id,
+                            Title = Title, 
+                            UserProfileId = UserProfileId,
+                            CategoryId = CategoryId,
+                            ImageUrl = ImageUrl,
+                            VideoUrl = VideoUrl,
+                            Creator = Creator,
+                            Description = Description, 
+                            PrepTime = PrepTime,
+                            CookTime = CookTime,
+                            ServingAmount = ServingAmount,
                         };
+                        recipe.Add(r);
                     }
                     reader.Close();
 
