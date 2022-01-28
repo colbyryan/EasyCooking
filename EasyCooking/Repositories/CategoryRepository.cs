@@ -30,7 +30,7 @@ namespace EasyCooking.Repositories
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"
-                                    SELECT * 
+                                    SELECT Id, Name
                                     FROM Category
                                    ";
 
