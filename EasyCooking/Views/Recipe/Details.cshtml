@@ -65,10 +65,13 @@
             @Html.DisplayFor(model => model.Recipe.ServingAmount)
         </dd>
         <div>
-            <div>
+            <div class="div2">
                 <div>
+                    @{var actionUrl = $"Ingredients/Create/{Model.Recipe.Id}";}
                     <h2>Ingredients</h2>
-                    <button>Add Ingredient</button>
+                    <form action=@actionUrl method="post">
+                        <input type="submit" id="btnSend" value="Add In" />
+                    </form>
                 </div>
                 <ul>
                     @foreach (var i in Model.ingredients)
@@ -77,7 +80,7 @@
                     }
                 </ul>
             </div>
-            <div>
+            <div class="div3">
                 <h2>Directions</h2>
                 <button>Add Step</button>
             </div>
