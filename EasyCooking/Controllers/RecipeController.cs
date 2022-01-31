@@ -96,7 +96,8 @@ namespace EasyCooking.Controllers
         // GET: RecipeController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            _recipeRepository.Remove(id);
+            return RedirectToAction("Index");
         }
 
         // POST: RecipeController/Delete/5
