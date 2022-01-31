@@ -185,7 +185,7 @@ namespace EasyCooking.Repositories
                                 CookTime = @cookTime,
                                 ServingAmount = @servingAmount
                             WHERE Id = @id";
-
+                    cmd.Parameters.AddWithValue("@id", recipe.Id);
                     cmd.Parameters.AddWithValue("@title", recipe.Title);
                     cmd.Parameters.AddWithValue("@userProfileId", recipe.UserProfileId);
                     cmd.Parameters.AddWithValue("@categoryId", recipe.CategoryId == null ? DBNull.Value : recipe.CategoryId);

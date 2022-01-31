@@ -82,6 +82,7 @@ namespace EasyCooking.Controllers
         {
             try
             {
+
                 _recipeRepository.UpdateRecipe(recipe);
                 recipe.CategoryOptions = _categoryRepository.GetAll();
                 return RedirectToAction("Index");
