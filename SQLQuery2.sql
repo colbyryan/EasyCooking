@@ -1,3 +1,7 @@
-﻿SELECT Id, Title, UserProfileId, CategoryId, ImageUrl, VideoUrl, Creator, Description, PrepTime, CookTime, ServingAmount
-FROM Recipe
-WHERE Id = 1
+﻿INSERT INTO Favorites (RecipeId, UserProfileId)
+OUTPUT INSERTED.ID
+VALUES (@recipeId, @userPRofileId)
+
+select * from RecipeIngredient
+select * from Ingredient
+select * from Step
