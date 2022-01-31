@@ -93,9 +93,10 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Title, UserProfileId, CategoryId, ImageUrl, VideoUrl, Creator, Description, PrepTime, CookTime, ServingAmount
+                                    SELECT Recipe.Id, Title, UserProfileId, CategoryId, ImageUrl, VideoUrl, Creator, Description, PrepTime, CookTime, ServingAmount, c.Name
                                     FROM Recipe
-                                    WHERE Id = @id";
+                                    LEFT JOIN Category c on Recipe.CategoryId = c.Id
+                                    WHERE Recipe.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", Id);
 
@@ -109,7 +110,6 @@ namespace EasyCooking.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
                             UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
                             ImageUrl = GetNullableString(reader, "ImageUrl"),
                             VideoUrl = GetNullableString(reader, "VideoUrl"),
                             Creator = reader.GetString(reader.GetOrdinal("Creator")),
@@ -118,6 +118,15 @@ namespace EasyCooking.Repositories
                             CookTime = reader.GetInt32(reader.GetOrdinal("CookTime")),
                             ServingAmount = reader.GetString(reader.GetOrdinal("ServingAmount")),
                         };
+                        if (!reader.IsDBNull(reader.GetOrdinal("CategoryId")))
+                            {
+                            recipe.CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId"));
+                            recipe.Category = new Category
+                            {
+                                Id = (int)recipe.CategoryId,
+                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                            };
+                        }
                     }
                     reader.Close();
 
@@ -176,7 +185,7 @@ namespace EasyCooking.Repositories
                                 CookTime = @cookTime,
                                 ServingAmount = @servingAmount
                             WHERE Id = @id";
-
+                    cmd.Parameters.AddWithValue("@id", recipe.Id);
                     cmd.Parameters.AddWithValue("@title", recipe.Title);
                     cmd.Parameters.AddWithValue("@userProfileId", recipe.UserProfileId);
                     cmd.Parameters.AddWithValue("@categoryId", recipe.CategoryId == null ? DBNull.Value : recipe.CategoryId);

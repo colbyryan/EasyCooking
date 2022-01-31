@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace EasyCooking.Models
 {
     public class Recipe
@@ -14,5 +16,7 @@ namespace EasyCooking.Models
         public int PrepTime { get; set; }
         public int CookTime { get; set; }
         public string ServingAmount { get; set; }
+        public Category Category { get; set; }
+        public List<Category> CategoryOptions { get; set; }
     }
 }

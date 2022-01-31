@@ -19,8 +19,7 @@ namespace EasyCooking.Controllers
             _categoryRepository = categoryRepository;
             _recipeRepository = recipeRepository;
             }
-
-    public ActionResult Index()
+        public ActionResult Index()
         {
             List<Recipe> recipe = _recipeRepository.GetAll();
             return View(recipe);
@@ -72,18 +71,20 @@ namespace EasyCooking.Controllers
         public ActionResult Edit(int id)
         {
             Recipe recipe = _recipeRepository.GetById(id);
+            recipe.CategoryOptions = _categoryRepository.GetAll();
             return View(recipe);
         }
 
         // POST: RecipeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Recipe recipe)
+        public ActionResult Edit(Recipe recipe)
         {
             try
             {
-                recipe.Id = id;
+
                 _recipeRepository.UpdateRecipe(recipe);
+                recipe.CategoryOptions = _categoryRepository.GetAll();
                 return RedirectToAction("Index");
             }
             catch
