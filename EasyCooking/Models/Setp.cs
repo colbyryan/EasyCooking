@@ -1,7 +1,7 @@
 ﻿
 namespace EasyCooking.Models
 {
-    public class Setp
+    public class Step
     {
         public int Id { get; set; }
         public int RecipeId { get; set; }

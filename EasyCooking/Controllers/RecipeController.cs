@@ -13,9 +13,11 @@ namespace EasyCooking.Controllers
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IRecipeRepository _recipeRepository;
-        public RecipeController(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository)
+        private readonly IIngredientRepository _ingredientRepository;
+        public RecipeController(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository, IIngredientRepository ingredientRepository)
         // GET: RecipeController
             {
+            _ingredientRepository = ingredientRepository;
             _categoryRepository = categoryRepository;
             _recipeRepository = recipeRepository;
             }
@@ -28,10 +30,12 @@ namespace EasyCooking.Controllers
         // GET: RecipeController/Details/5
         public ActionResult Details(int id)
         {
-            var recipe = _recipeRepository.GetById(id);
-            if (recipe != null)
+            var vm = new RecipeViewModel();
+            vm.Recipe = _recipeRepository.GetById(id);
+            vm.ingredients = _ingredientRepository.GetAllByRecipeId(id);
+            if (vm.Recipe != null)
             {
-                return View(recipe);
+                return View(vm);
             } 
             else
             {

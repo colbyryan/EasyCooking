@@ -28,6 +28,7 @@ namespace EasyCooking
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IRecipeRepository, RecipeRepository>();
             services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+            services.AddTransient<IIngredientRepository, IngredientRepository>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
