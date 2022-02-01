@@ -12,12 +12,15 @@ namespace EasyCooking.Controllers
     public class IngredientController : Controller
     {
         private readonly IIngredientRepository _ingredientRepository;
-        public IngredientController(IIngredientRepository ingredientRepository)
+        private readonly IRecipeRepository _recipeRepository;
+        public IngredientController(IIngredientRepository ingredientRepository, IRecipeRepository recipeRepository)
         // GET: RecipeController
         {
             _ingredientRepository = ingredientRepository;
+            _recipeRepository = recipeRepository;
         }
         // GET: IngredientController
+        [HttpGet]
         public ActionResult Index(int id)
         {
             var ingredients = _ingredientRepository.GetAllByRecipeId(id);
@@ -29,24 +32,27 @@ namespace EasyCooking.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         // GET: IngredientController/Create
-        public ActionResult Create(Ingredient ingredient)
+        public ActionResult Create(int id)
         {
-            _ingredientRepository.Add(ingredient);
-            return RedirectToAction("Details", "Recipe");
+            var recipe = _recipeRepository.GetById(id);
+            ViewData["RecipeName"] = recipe.Title;
+            return View();
         }
 
         // POST: IngredientController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(int id, Ingredient ingredient)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                ingredient.RecipeId = id;
+                _ingredientRepository.Add(ingredient);
+                return RedirectToAction("Details", "Recipe", new { id });
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

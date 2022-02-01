@@ -96,11 +96,10 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Content
-                                    FROM Ingredient
-                                    LEFT JOIN RecipeIngredient RI on RI.IngredientId = Ingredient.Id
-                                    LEFT JOIN Recipe R on R.Id = RI.RecipeId
-                                    WHERE R.Id = @id";
+                                    SELECT *
+                                    FROM 
+                                    Ingredient
+                                    WHERE RecipeId = @id";
 
                     cmd.Parameters.AddWithValue("@id", Id);
 
@@ -133,11 +132,12 @@ namespace EasyCooking.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        Ingrednet (Content) 
+                                        Ingredient (Content, RecipeId) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@content)";
+                                        VALUES(@content, @recipeId)";
 
                     cmd.Parameters.AddWithValue("@content", ingredient.Content);
+                    cmd.Parameters.AddWithValue("@recipeId", ingredient.RecipeId);
 
                     ingredient.Id = (int)cmd.ExecuteScalar();
                 }
