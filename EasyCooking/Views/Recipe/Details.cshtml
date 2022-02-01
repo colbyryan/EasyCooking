@@ -67,7 +67,7 @@
         <div>
             <div class="div2">
                 <div>
-                    @{var actionUrl = $"Ingredients/Create/{Model.Recipe.Id}";}
+                    @{var actionUrl = $"/Ingredient/Index/{Model.Recipe.Id}";}
                     <h2>Ingredients</h2>
                     <form action=@actionUrl method="post">
                         <input type="submit" id="btnSend" value="Add In" />

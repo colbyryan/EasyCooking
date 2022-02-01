@@ -18,9 +18,10 @@ namespace EasyCooking.Controllers
             _ingredientRepository = ingredientRepository;
         }
         // GET: IngredientController
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
+            var ingredients = _ingredientRepository.GetAllByRecipeId(id);
+            return View(ingredients);
         }
 
         // GET: IngredientController/Details/5
