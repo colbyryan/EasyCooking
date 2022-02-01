@@ -1,9 +1,11 @@
-﻿using EasyCooking.Repositories;
+﻿using EasyCooking.Models;
+using EasyCooking.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EasyCooking.Controllers
@@ -11,10 +13,12 @@ namespace EasyCooking.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public CategoryController(ICategoryRepository categoryRepository, IUserProfileRepository userProfileRepository)
         // GET: RecipeController
         {
             _categoryRepository = categoryRepository;
+            _userProfileRepository = userProfileRepository;
         }
         // GET: CategoryController
         public ActionResult Index()
@@ -26,22 +30,33 @@ namespace EasyCooking.Controllers
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var category = _categoryRepository.GetCategoryById(id);
+            return View(category);
         }
 
         // GET: CategoryController/Create
         public ActionResult Create()
         {
-            return View();
+            int currentUserId = GetCurrentUserProfileId();
+            UserProfile user = _userProfileRepository.GetById(currentUserId);
+              if (user.UserTypeId == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Category category)
         {
             try
             {
+                _categoryRepository.CreateCategory(category);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -53,28 +68,34 @@ namespace EasyCooking.Controllers
         // GET: CategoryController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Category category = _categoryRepository.GetCategoryById(id);
+            return View(category);
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                category.Id = id;
+                _categoryRepository.Update(category);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(category);
             }
+
         }
 
         // GET: CategoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            _categoryRepository.GetCategoryById(id);
+            return RedirectToAction("Index");
         }
 
         // POST: CategoryController/Delete/5
@@ -82,14 +103,22 @@ namespace EasyCooking.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
-            try
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _categoryRepository.Delete(id);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+        }
+        private int GetCurrentUserProfileId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
         }
     }
 }

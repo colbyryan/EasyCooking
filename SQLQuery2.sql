@@ -14,3 +14,7 @@ WHERE R.Id = 1
 
 SELECT * FROM RecipeIngredient
 
+SELECT Id, Name
+FROM Category
+WHERE id = 3
+

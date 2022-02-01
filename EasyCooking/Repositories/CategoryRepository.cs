@@ -84,18 +84,18 @@ namespace EasyCooking.Repositories
                                         FROM Category
                                         WHERE id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
-                    Category category = null;
+
                     SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+
+                    var category = new Category();
+
+                    if (reader.Read())
                     {
-                        if (category == null)
+                        category = new Category()
                         {
-                            category = new Category()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Name = reader.GetString(reader.GetOrdinal("Name"))
-                            };
-                        }
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
+                        };
                     }
                     reader.Close();
                     return category;
