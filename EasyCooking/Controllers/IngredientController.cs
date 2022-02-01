@@ -55,17 +55,20 @@ namespace EasyCooking.Controllers
         // GET: IngredientController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Ingredient ingredient = _ingredientRepository.GetById(id);          
+            return View(ingredient);
         }
 
         // POST: IngredientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Ingredient ingredient)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                ingredient.Id = id;
+                _ingredientRepository.UpdateIngredient(ingredient);
+                return RedirectToAction("Index", new { id = id });
             }
             catch
             {

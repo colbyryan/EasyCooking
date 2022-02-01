@@ -143,7 +143,7 @@ namespace EasyCooking.Repositories
                 }
             }
         }
-        public void UpdateRecipe(Ingredient ingredient)
+        public void UpdateIngredient(Ingredient ingredient)
         {
             using (SqlConnection conn = Connection)
             {

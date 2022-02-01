@@ -10,6 +10,6 @@ namespace EasyCooking.Repositories
         List<Ingredient> GetAllByRecipeId(int Id);
         Ingredient GetById(int Id);
         void Remove(int id);
-        void UpdateRecipe(Ingredient ingredient);
+        void UpdateIngredient(Ingredient ingredient);
     }
 }
