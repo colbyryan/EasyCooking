@@ -6,3 +6,7 @@ RecipeId int not null Foreign key references recipe (Id) on delete cascade)
 INSERT INTO Ingredient 
 (Content, RecipeId)
 VALUES ('Salt', 1)
+
+select * from Recipe
+
+delete from Recipe where Id = 2003

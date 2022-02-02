@@ -14,12 +14,17 @@ namespace EasyCooking.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly IRecipeRepository _recipeRepository;
         private readonly IIngredientRepository _ingredientRepository;
-        public RecipeController(IRecipeRepository recipeRepository, ICategoryRepository categoryRepository, IIngredientRepository ingredientRepository)
+        private readonly IStepRepository _stepRepository;
+        public RecipeController(IRecipeRepository recipeRepository, 
+            ICategoryRepository categoryRepository, 
+            IIngredientRepository ingredientRepository,
+            IStepRepository stepRepository)
         // GET: RecipeController
             {
             _ingredientRepository = ingredientRepository;
             _categoryRepository = categoryRepository;
             _recipeRepository = recipeRepository;
+            _stepRepository = stepRepository;
             }
         public ActionResult Index()
         {
@@ -33,6 +38,7 @@ namespace EasyCooking.Controllers
             var vm = new RecipeViewModel();
             vm.Recipe = _recipeRepository.GetById(id);
             vm.ingredients = _ingredientRepository.GetAllByRecipeId(id);
+            vm.steps = _stepRepository.GetAllByRecipeId(id);
             if (vm.Recipe != null)
             {
                 return View(vm);

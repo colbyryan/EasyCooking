@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
+
 namespace EasyCooking.Models
 {
     public class Recipe
