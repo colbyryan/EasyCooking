@@ -65,7 +65,7 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Content
+                                    SELECT Id, Content, RecipeId
                                     FROM Ingredient
                                     WHERE Id = @id";
 
@@ -79,7 +79,8 @@ namespace EasyCooking.Repositories
                         ingredient = new Ingredient
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Content = reader.GetString(reader.GetOrdinal("Content"))
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            RecipeId = reader.GetInt32(reader.GetOrdinal("RecipeId"))
                         };
                     }
                     reader.Close();
@@ -109,10 +110,13 @@ namespace EasyCooking.Repositories
                     while (reader.Read())
                     {
                         var Content = reader.GetString(reader.GetOrdinal("Content"));
+                        var RecipeId = reader.GetInt32(reader.GetOrdinal("RecipeId"));
+                        var IngredientId = reader.GetInt32(reader.GetOrdinal("Id"));
                         Ingredient i = new Ingredient
                         {
-                            Id = Id,
+                            Id = IngredientId,
                             Content = Content,
+                            RecipeId = RecipeId,
                         };
                         ingredients.Add(i);
                     }

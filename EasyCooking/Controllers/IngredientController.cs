@@ -38,6 +38,7 @@ namespace EasyCooking.Controllers
         {
             var recipe = _recipeRepository.GetById(id);
             ViewData["RecipeName"] = recipe.Title;
+            ViewData["RecipeId"] = recipe.Id;
             return View();
         }
 
@@ -74,7 +75,7 @@ namespace EasyCooking.Controllers
             {
                 ingredient.Id = id;
                 _ingredientRepository.UpdateIngredient(ingredient);
-                return RedirectToAction("Index", new { id = id });
+                return RedirectToAction("Details","Recipe", new { id = ingredient.RecipeId });
             }
             catch
             {
