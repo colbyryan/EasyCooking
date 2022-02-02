@@ -1,0 +1,33 @@
+﻿@model EasyCooking.Models.Step
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Add Step to @ViewData["RecipeName"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" type="hidden" class="form-control" />
+                <input asp-for="RecipeId" type="hidden" class="form-control" />
+            <div class="form-group">
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+                <input asp-for="StepOrder" type="hidden" class="form-control" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Recipe" asp-action="Details" asp-route-id="@ViewData["RecipeId"]">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

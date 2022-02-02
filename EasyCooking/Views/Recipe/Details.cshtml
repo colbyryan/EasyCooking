@@ -90,7 +90,7 @@
             <div class="div3">
                 <div>
                     <h2>Directions</h2>
-                    <a asp-controller="Step" asp-action="Create" asp-route-id="@Model.Recipe.Id"><input type="button" value="Add Ingredient" /></a>
+                    <a asp-controller="Step" asp-action="Create" asp-route-id="@Model.Recipe.Id"><input type="button" value="Add a Step" /></a>
                 </div>
                 <div class="table">
                     <ol>
@@ -99,8 +99,8 @@
                             <li>
                                 <p>
                                     @Html.DisplayFor(modelItem => item.Content)
-                                    @Html.ActionLink("Edit", "Edit", "Ingredient", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", "Ingredient", new { id = item.Id })
+                                    @Html.ActionLink("Edit", "Edit", "Step", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", "Step", new { id = item.Id })
                                 </p>
                             </li>
                         }
