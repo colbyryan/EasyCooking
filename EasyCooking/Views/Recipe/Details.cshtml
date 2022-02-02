@@ -68,7 +68,6 @@
             <div class="div2">
                 <div>
                     <h2>Ingredients</h2>
-                    @Html.ActionLink("Add Ingredient", "Create", "Ingredient", new { id = Model.Recipe.Id })
                     <a asp-controller="Ingredient" asp-action="Create" asp-route-id="@Model.Recipe.Id"><input type="button" value="Add Ingredient"/></a>
                 </div>
                 <table class="table">
@@ -89,8 +88,24 @@
                 </table>
             </div>
             <div class="div3">
-                <h2>Directions</h2>
-                <button>Add Step</button>
+                <div>
+                    <h2>Directions</h2>
+                    <a asp-controller="Step" asp-action="Create" asp-route-id="@Model.Recipe.Id"><input type="button" value="Add Ingredient" /></a>
+                </div>
+                <div class="table">
+                    <ol>
+                        @foreach (var item in Model.steps)
+                        {
+                            <li>
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Content)
+                                    @Html.ActionLink("Edit", "Edit", "Ingredient", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", "Ingredient", new { id = item.Id })
+                                </p>
+                            </li>
+                        }
+                    </ol>
+                </div>
             </div>
         </div>
        
