@@ -65,7 +65,7 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Content
+                                    SELECT Id, Content, RecipeId
                                     FROM Ingredient
                                     WHERE Id = @id";
 
@@ -79,7 +79,8 @@ namespace EasyCooking.Repositories
                         ingredient = new Ingredient
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Content = reader.GetString(reader.GetOrdinal("Content"))
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            RecipeId = reader.GetInt32(reader.GetOrdinal("RecipeId"))
                         };
                     }
                     reader.Close();
@@ -96,11 +97,10 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Content
-                                    FROM Ingredient
-                                    LEFT JOIN RecipeIngredient RI on RI.IngredientId = Ingredient.Id
-                                    LEFT JOIN Recipe R on R.Id = RI.RecipeId
-                                    WHERE R.Id = @id";
+                                    SELECT *
+                                    FROM 
+                                    Ingredient
+                                    WHERE RecipeId = @id";
 
                     cmd.Parameters.AddWithValue("@id", Id);
 
@@ -110,10 +110,13 @@ namespace EasyCooking.Repositories
                     while (reader.Read())
                     {
                         var Content = reader.GetString(reader.GetOrdinal("Content"));
+                        var RecipeId = reader.GetInt32(reader.GetOrdinal("RecipeId"));
+                        var IngredientId = reader.GetInt32(reader.GetOrdinal("Id"));
                         Ingredient i = new Ingredient
                         {
-                            Id = Id,
+                            Id = IngredientId,
                             Content = Content,
+                            RecipeId = RecipeId,
                         };
                         ingredients.Add(i);
                     }
@@ -133,17 +136,18 @@ namespace EasyCooking.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        Ingrednet (Content) 
+                                        Ingredient (Content, RecipeId) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@content)";
+                                        VALUES(@content, @recipeId)";
 
                     cmd.Parameters.AddWithValue("@content", ingredient.Content);
+                    cmd.Parameters.AddWithValue("@recipeId", ingredient.RecipeId);
 
                     ingredient.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
-        public void UpdateRecipe(Ingredient ingredient)
+        public void UpdateIngredient(Ingredient ingredient)
         {
             using (SqlConnection conn = Connection)
             {

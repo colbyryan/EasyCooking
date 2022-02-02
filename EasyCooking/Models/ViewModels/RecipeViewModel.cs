@@ -5,6 +5,7 @@ namespace EasyCooking.Models.ViewModels
     public class RecipeViewModel
     {
         public Recipe Recipe { get; set; }
+        public Ingredient ingredient { get; set; }
         public Category category { get; set; }
         public List<Category> CategoryOptions { get; set; }
         public List<Ingredient> ingredients { get; set; }
