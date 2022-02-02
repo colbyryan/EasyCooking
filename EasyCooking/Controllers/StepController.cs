@@ -1,4 +1,5 @@
-﻿using EasyCooking.Repositories;
+﻿using EasyCooking.Models;
+using EasyCooking.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -34,21 +35,26 @@ namespace EasyCooking.Controllers
         }
 
         // GET: StepController/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
+            var recipe = _recipeRepository.GetById(id);
+            ViewData["RecipeName"] = recipe.Title;
+            ViewData["RecipeId"] = recipe.Id;
             return View();
         }
 
         // POST: StepController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(int id, Step step)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                step.RecipeId = id;
+                _stepRepository.Add(step);
+                return RedirectToAction("Details", "Recipe", new { id });
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

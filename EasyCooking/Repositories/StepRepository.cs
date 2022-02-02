@@ -143,7 +143,7 @@ namespace EasyCooking.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        Step (Content, RecipeId, SetOrder) 
+                                        Step (Content, RecipeId, StepOrder) 
                                         OUTPUT INSERTED.ID
                                         VALUES(@content, @recipeId, @stepOrder)";
 
