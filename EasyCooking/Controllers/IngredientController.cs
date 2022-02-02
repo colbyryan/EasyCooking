@@ -86,17 +86,24 @@ namespace EasyCooking.Controllers
         // GET: IngredientController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var ingredient = _ingredientRepository.GetById(id);
+            int recipeId = ingredient.RecipeId;
+            ViewData["RecipeId"] = recipeId;
+            return View(ingredient);
         }
 
         // POST: IngredientController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Ingredient ingredient)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var ingredientRecipeId = _ingredientRepository.GetById(id);
+                int recipeId = ingredientRecipeId.RecipeId;
+                ViewData["RecipeId"] = recipeId;
+                _ingredientRepository.Remove(id);
+                return RedirectToAction("Details", "Recipe", new { id = recipeId });
             }
             catch
             {
