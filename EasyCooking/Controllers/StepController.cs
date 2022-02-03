@@ -87,17 +87,24 @@ namespace EasyCooking.Controllers
         // GET: StepController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var step = _stepRepository.GetById(id);
+            int recipeId = step.RecipeId;
+            ViewData["RecipeId"] = recipeId;
+            return View(step);
         }
 
         // POST: StepController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Step step)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var stepRecipeId = _stepRepository.GetById(id);
+                int recipeId = stepRecipeId.RecipeId;
+                ViewData["RecipeId"] = recipeId;
+                _stepRepository.Remove(id);
+                return RedirectToAction("Details", "Recipe", new { id = recipeId });
             }
             catch
             {
