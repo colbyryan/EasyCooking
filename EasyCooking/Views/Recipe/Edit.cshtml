@@ -76,7 +76,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Recipe" asp-action="Details" asp-route-id="@ViewData["RecipeId"]">Back to List</a>
 </div>
 
 @section Scripts {

@@ -82,6 +82,9 @@ namespace EasyCooking.Controllers
         {
             Recipe recipe = _recipeRepository.GetById(id);
             recipe.CategoryOptions = _categoryRepository.GetAll();
+            var GetRecipeId = _recipeRepository.GetById(id);
+            int recipeId = GetRecipeId.Id;
+            ViewData["RecipeId"] = recipeId;
             return View(recipe);
         }
 
@@ -106,18 +109,24 @@ namespace EasyCooking.Controllers
         // GET: RecipeController/Delete/5
         public ActionResult Delete(int id)
         {
-            _recipeRepository.Remove(id);
-            return RedirectToAction("Index");
+            var recipe = _recipeRepository.GetById(id);
+            int recipeId = recipe.Id;
+            ViewData["RecipeId"] = recipeId;
+            return View(recipe);
         }
 
         // POST: RecipeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Recipe recipe)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var getRecipeId = _recipeRepository.GetById(id);
+                int recipeId = getRecipeId.Id;
+                ViewData["RecipeId"] = recipeId;
+                _recipeRepository.Remove(id);
+                return RedirectToAction("Index");
             }
             catch
             {
