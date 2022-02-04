@@ -1,5 +1,6 @@
 ﻿using EasyCooking.Models;
 using EasyCooking.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,7 @@ namespace EasyCooking.Controllers
             _userProfileRepository = userProfileRepository;
         }
         // GET: CategoryController
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var ListCategory = _categoryRepository.GetAll();

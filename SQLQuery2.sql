@@ -1,1 +1,5 @@
-﻿select * from Recipe
+﻿SELECT * FROM Favorites
+
+DELETE FROM Favorites 
+
+

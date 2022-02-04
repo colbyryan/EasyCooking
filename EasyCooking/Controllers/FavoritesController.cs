@@ -10,16 +10,18 @@ namespace EasyCooking.Controllers
     public class FavoritesController : Controller
     {
         private readonly IFavoriteRepository _favoriteRepository;
-        public FavoritesController(IFavoriteRepository favoriteRepository)
+        private readonly IRecipeRepository _recipeRepository;
+        public FavoritesController(IFavoriteRepository favoriteRepository, IRecipeRepository recipeRepository)
         {
             _favoriteRepository = favoriteRepository;
+            _recipeRepository = recipeRepository;
         }
         // GET: FavoritesController
         public ActionResult Index()
         {
             return View();
         }
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         public IActionResult Create(int id)
         {
@@ -29,7 +31,7 @@ namespace EasyCooking.Controllers
                 UserProfileId = GetCurrentUserProfileId()
             };
             _favoriteRepository.Add(favorite);
-            return RedirectToAction("Index", "Recipe");
+            return RedirectToAction("Details", "Recipe", new { id = id });
         }
 
         // GET: FavoritesController/Details/5
@@ -43,21 +45,6 @@ namespace EasyCooking.Controllers
         {
             return View();
         }
-
-        // POST: FavoritesController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
 
         // GET: FavoritesController/Edit/5
         public ActionResult Edit(int id)
@@ -81,19 +68,24 @@ namespace EasyCooking.Controllers
         }
 
         // GET: FavoritesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    var recipe = _recipeRepository.GetById(id);
+        //    ViewData["RecipeTitle"] = recipe.Title;
+        //    var f = _favoriteRepository.GetById(id);
+        //    return View(f);
+        //}
 
         // POST: FavoritesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
+        [HttpGet]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var userId = GetCurrentUserProfileId();
+                _favoriteRepository.Delete(id, userId);
+                return RedirectToAction("Details", "Recipe", new { id = id });
             }
             catch
             {
