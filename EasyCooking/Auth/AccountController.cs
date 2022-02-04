@@ -24,6 +24,7 @@ namespace EasyCooking.Auth
 
         public IActionResult Login()
         {
+            ViewData["IsAdmin"] = false;
             return View();
         }
 
@@ -32,6 +33,7 @@ namespace EasyCooking.Auth
         {
             if (!ModelState.IsValid)
             {
+
                 return View(credentials);
             }
 
@@ -92,6 +94,9 @@ namespace EasyCooking.Auth
 
         public async Task<IActionResult> Logout()
         {
+            var GetCurrentUserId = GetCurrentUserProfileId();
+            var CurrentUser = _userProfileRepository.GetById(GetCurrentUserId);
+            ViewData["IsAdmin"] = CurrentUser.UserTypeId == 1;
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -102,6 +107,7 @@ namespace EasyCooking.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, userProfile.Id.ToString()),
                 new Claim(ClaimTypes.Email, userProfile.Email),
+                new Claim(ClaimTypes.Role, userProfile.UserTypeId == 1 ? "Admin" : "Viewer")
             };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -110,6 +116,11 @@ namespace EasyCooking.Auth
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
+        }
+        private int GetCurrentUserProfileId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace EasyCooking.Controllers
 
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);
+            ViewData["IsAdmin"] = userProfile.UserTypeId == 1;
             return View(userProfile);
 //This will return the "Index View" and pass in the user that we got by Id and stored in userProfile
         }

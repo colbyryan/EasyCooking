@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using EasyCooking.Models.ViewModels;
 using System.Security.Claims;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EasyCooking.Controllers
 {
@@ -15,16 +16,23 @@ namespace EasyCooking.Controllers
         private readonly IRecipeRepository _recipeRepository;
         private readonly IIngredientRepository _ingredientRepository;
         private readonly IStepRepository _stepRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IFavoriteRepository _faoriteRepository;
         public RecipeController(IRecipeRepository recipeRepository, 
             ICategoryRepository categoryRepository, 
             IIngredientRepository ingredientRepository,
-            IStepRepository stepRepository)
+            IStepRepository stepRepository,
+            IUserProfileRepository userProfileRepository,
+            IFavoriteRepository favoriteRepository)
+            
         // GET: RecipeController
             {
             _ingredientRepository = ingredientRepository;
             _categoryRepository = categoryRepository;
             _recipeRepository = recipeRepository;
             _stepRepository = stepRepository;
+            _userProfileRepository = userProfileRepository;
+            _faoriteRepository = favoriteRepository;
             }
         public ActionResult Index()
         {
@@ -39,6 +47,7 @@ namespace EasyCooking.Controllers
             vm.Recipe = _recipeRepository.GetById(id);
             vm.ingredients = _ingredientRepository.GetAllByRecipeId(id);
             vm.steps = _stepRepository.GetAllByRecipeId(id);
+            ViewData["IsSubscribed"] = _faoriteRepository.IsSubscribed(GetCurrentUserProfileId(), id);
             if (vm.Recipe != null)
             {
                 return View(vm);
@@ -51,6 +60,7 @@ namespace EasyCooking.Controllers
 
 
         // GET: RecipeController/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var vm = new RecipeViewModel();

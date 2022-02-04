@@ -10,10 +10,16 @@
         <h2>Filter By Category</h2>
         <input placeholder="Category..." />
     </div>
-    <div>
-        <a asp-action="Create">Add New Recipe</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <div>
+            <a asp-action="Create">Add New Recipe</a>
+        </div>
+    } else
+    {
+        <div></div>
+    }
     </div>
-</div>
 <div class="container">
     <div class="row">
         @foreach (var item in Model)
@@ -23,9 +29,9 @@
             <a asp-action="Details" asp-route-id="@item.Id">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
-                    <form action=@actionUrl method="post">
-                        <input type="submit" id="btnSend" value="Favorite" />
-                    </form>
+                    @*<form action=@actionUrl method="post">
+                            <input type="submit" id="btnSend" value="Favorite" />
+                    </form>*@
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
                         <p class="card-text">By: @item.Creator</p>
