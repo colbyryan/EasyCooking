@@ -54,7 +54,7 @@ namespace EasyCooking.Repositories
                         var Id = reader.GetInt32(reader.GetOrdinal("Id"));
                         var Title = reader.GetString(reader.GetOrdinal("Title"));
                         var UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId"));
-                        var CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId"));
+                        int? CategoryId = reader.IsDBNull(reader.GetOrdinal("CategoryId")) ? null : reader.GetInt32(reader.GetOrdinal("CategoryId"));
                         var ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
                         var VideoUrl = GetNullableString(reader, "VideoUrl");
                         var Creator = reader.GetString(reader.GetOrdinal("Creator"));
