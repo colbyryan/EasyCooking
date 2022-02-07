@@ -92,9 +92,7 @@ namespace EasyCooking.Controllers
         {
             Recipe recipe = _recipeRepository.GetById(id);
             recipe.CategoryOptions = _categoryRepository.GetAll();
-            var GetRecipeId = _recipeRepository.GetById(id);
-            int recipeId = GetRecipeId.Id;
-            ViewData["RecipeId"] = recipeId;
+            ViewData["RecipeId"] = recipe.Id;
             return View(recipe);
         }
 
