@@ -7,6 +7,7 @@ using EasyCooking.Models.ViewModels;
 using System.Security.Claims;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace EasyCooking.Controllers
 {
@@ -34,10 +35,17 @@ namespace EasyCooking.Controllers
             _userProfileRepository = userProfileRepository;
             _faoriteRepository = favoriteRepository;
             }
-        public ActionResult Index()
+        public ActionResult Index(string searching)
         {
-            List<Recipe> recipe = _recipeRepository.GetAll();
-            return View(recipe);
+            List<Recipe> recipes = _recipeRepository.GetAll();
+            if (String.IsNullOrEmpty(searching))
+            {
+                return View(recipes);
+            }
+            else
+            {
+                return View(recipes.Where(x => x.CategoryName.Contains(searching) || searching == null).ToList());
+            }
         }
 
         // GET: RecipeController/Details/5

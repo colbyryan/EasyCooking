@@ -4,23 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Linq;
+using System;
 
 namespace EasyCooking.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IUserProfileRepository _userProfileRepository;
-        public HomeController(IUserProfileRepository userProfileRepository)
+        private readonly IRecipeRepository _recipeRepository;
+        public HomeController(IUserProfileRepository userProfileRepository, IRecipeRepository recipeRepository)
         {
 //This give us the ability to access different methods inside of the UserProfileRepo
             _userProfileRepository = userProfileRepository;
+            _recipeRepository = recipeRepository;
         }
         
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Index(string searching)
         {
-
-//Don't forget to ask Josh about adding VideoLink to the DB or not :3
 
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);

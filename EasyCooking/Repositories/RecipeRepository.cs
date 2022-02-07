@@ -42,8 +42,8 @@ namespace EasyCooking.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT * 
-                                    FROM Recipe
+                                   select r.Id, r.Title, r.UserProfileId, r.CategoryId, r.ImageUrl, r.Creator, r.Description, r.PrepTime, r.CookTime, r.ServingAmount, r.VideoUrl, c.Id, c.Name from recipe r
+                                   left join Category c on r.CategoryId = c.Id
                                    ";
 
                     var reader = cmd.ExecuteReader();
@@ -62,6 +62,7 @@ namespace EasyCooking.Repositories
                         var PrepTime = reader.GetInt32(reader.GetOrdinal("PrepTime"));
                         var CookTime = reader.GetInt32(reader.GetOrdinal("CookTime"));
                         var ServingAmount = reader.GetString(reader.GetOrdinal("ServingAmount"));
+                        var Name = reader.GetString(reader.GetOrdinal("Name"));
                         Recipe r = new Recipe
                         {
                             Id = Id,
@@ -75,6 +76,7 @@ namespace EasyCooking.Repositories
                             PrepTime = PrepTime,
                             CookTime = CookTime,
                             ServingAmount = ServingAmount,
+                            CategoryName = Name,
                         };
                         recipe.Add(r);
                     }
