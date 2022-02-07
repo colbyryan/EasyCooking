@@ -18,6 +18,7 @@ namespace EasyCooking.Models
         public int CookTime { get; set; }
         public string ServingAmount { get; set; }
         public Category Category { get; set; }
+        public string CategoryName { get; set; }
         public List<Category> CategoryOptions { get; set; }
     }
 }
