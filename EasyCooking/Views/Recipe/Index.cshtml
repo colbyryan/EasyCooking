@@ -27,7 +27,7 @@
     }
     </div>
 <div class="container">
-    <div class="row">
+    <div class="d-flex row justify-content-around">
         @if (Model.Count() == 0)
         {
                 <tr>
@@ -40,9 +40,9 @@
         {
         @foreach (var item in Model)
         {
-        <div class="col-auto col-xs-12">
+        <div class="col-auto col-xs-12 mt-5">
             @{var actionUrl = $"Favorites/Create/{item.Id}";}
-            <a asp-action="Details" asp-route-id="@item.Id">
+            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none text-body">
                 <div class="card" style="width: 18rem;">
                     <div class="col-md-auto col-xs-12">
                         <img class="card-img-top text-center" src="@item.ImageUrl" alt="Card image cap">
