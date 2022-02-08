@@ -20,5 +20,13 @@ namespace EasyCooking.Models
         public Category Category { get; set; }
         public string CategoryName { get; set; }
         public List<Category> CategoryOptions { get; set; }
+        public string TotalTime
+        {
+            get
+            {
+                return $"{CookTime + PrepTime}";
+            }
+        }
     }
 }
+
