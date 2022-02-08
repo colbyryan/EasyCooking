@@ -4,9 +4,156 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="d-flex flex-lg-row flex-md-column flex-sm-column flex-">
+    <div class="image-box-details">
+        @if (Model.Recipe.VideoUrl == null)
+        {
+            <img src="@Model.Recipe.ImageUrl" alt="Photo of Food" />
+        }
+        else
+        {
+            <iframe className="video"
+                    src=@Model.Recipe.VideoUrl
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen />
+        }
+    </div>
+    <div class="description">
+        <h2>@Model.Recipe.Title</h2>
+        <p>By: @Model.Recipe.Creator</p>
+        <p>@Model.Recipe.Description</p>
+    </div>
+    <div>
+        <h4>Meal Info</h4>
+        <div class="border rounded p-3">
+            <ul class="list-unstyled">
+                <li class="pb-2">Prep Time: @Model.Recipe.PrepTime</li>
+                <li class="pb-2">Cook Time: @Model.Recipe.CookTime</li>
+                <li class="pb-2">Total: @Model.Recipe.TotalTime</li>
+                <li>Serves: @Model.Recipe.ServingAmount</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div>
+    <div class="div2">
+        <div>
+            <div class="d-flex justify-content-between pt-4">
+                <h2>Ingredients</h2>
+                @if (!(bool)ViewData["IsSubscribed"])
+                {
+                    var actionUrl = $"/Favorites/Create/{Model.Recipe.Id}";
+                    <form action=@actionUrl method="get">
+                        <input type="submit" id="btnSend" value="Favorite" />
+                    </form>
+                }
+                else
+                {
+                    var actionUrl = $"/Favorites/Delete/{Model.Recipe.Id}";
+                    <form action=@actionUrl method="get">
+                        <input type="submit" id="btnSend" value="Unfavorite" />
+                    </form>
+                }
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Ingredient" asp-action="Create" asp-route-id="@Model.Recipe.Id"><input class="mb-2" type="button" value="Add Ingredient" /></a>
+            }
+            else
+            {
+                <div></div>
+            }
+        </div>
+        <table class="table">
+            <tbody>
+                @foreach (var item in Model.ingredients)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Content)
+                        </td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Ingredient", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", "Ingredient", new { id = item.Id })
+                            </td>
+                        }
+                        else
+                        {
+
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="div3">
+        <div>
+            <h2>Directions</h2>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Step" asp-action="Create" asp-route-id="@Model.Recipe.Id"><input class="mb-2" type="button" value="Add a Step" /></a>
+            }
+            else
+            {
+                <div></div>
+            }
+        </div>
+        <div class="table">
+            <ol>
+                @foreach (var item in Model.steps)
+                {
+                    <li>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Content)
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Edit |", "Edit", "Step", new { id = item.Id })
+                                @Html.ActionLink(" Delete", "Delete", "Step", new { id = item.Id })
+                            }
+                            else
+                            {
+                                <div></div>
+                            }
+                        </p>
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+</div>
+
+    </dl>
+<div>
+    <div class="d-flex justify-content-between">
+        <div>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Recipe.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model.Recipe.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                <i class="fas fa-trash"></i>
+            </a>
+        }
+        else
+        {
+            <div></div>
+        }
+            </div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+</div>
+
+
+
+@*<div>
     <h4>Recipe</h4>
     @if (!(bool)ViewData["IsSubscribed"])
     {
@@ -164,9 +311,10 @@
         <a asp-action="Delete" asp-route-id="@Model.Recipe.Id" class="btn btn-outline-primary mx-1" title="Delete">
             <i class="fas fa-trash"></i>
         </a>
-    } else
+    }
+    else
     {
         <div></div>
     }
-        <a asp-action="Index">Back to List</a>
-    </div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
