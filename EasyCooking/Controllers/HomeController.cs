@@ -23,7 +23,6 @@ namespace EasyCooking.Controllers
         [Authorize]
         public IActionResult Index(string searching)
         {
-
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);
             ViewData["IsAdmin"] = userProfile.UserTypeId == 1;
