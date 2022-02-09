@@ -12,18 +12,26 @@
         }
         else
         {
-            <iframe className="video"
-                    src=@Model.Recipe.VideoUrl
+            <iframe 
+                    src="@Model.Recipe.VideoUrl"
                     title="YouTube video player"
-                    frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen />
+                    allowFullScreen 
+                    />
         }
     </div>
-    <div class="description">
-        <h2>@Model.Recipe.Title</h2>
-        <p>By: @Model.Recipe.Creator</p>
-        <p>@Model.Recipe.Description</p>
+    <div class="description d-flex flex-column">
+        <div>
+            <h2>@Model.Recipe.Title</h2>
+            <p>By: @Model.Recipe.Creator</p>
+            <p>@Model.Recipe.Description</p>
+        </div>
+        <div class="image-box">
+            <img src="./Icons/icons8-facebook-48 (1).png" alt="Facebook Logo" /> 
+            <img src="./Icons/icons8-instagram-48.png" alt="Instagram Logo" />
+            <img src="./Icons/pintrest.png" alt="Pintrest Logo" /> 
+            <img src="./Icons/icons8-twitter-circled-48.png" alt="Twitter Logo" /> 
+        </div>
     </div>
     <div>
         <h4>Meal Info</h4>
