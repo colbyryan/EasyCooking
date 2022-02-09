@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="d-flex justify-content-center flex-lg-row flex-md-column flex-sm-column pt-5">
+<div class="d-flex justify-content-center flex-lg-row flex-md-column flex-sm-column ">
     <div class="image-box-details">
         @if (Model.Recipe.VideoUrl == null)
         {
@@ -12,12 +12,13 @@
         }
         else
         {
-            <iframe 
+            <iframe width="100%"
+                    height="100%"
                     src="@Model.Recipe.VideoUrl"
                     title="YouTube video player"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen 
-                    />
+                    ></iframe>
         }
     </div>
     <div class="description d-flex flex-column">
@@ -26,11 +27,11 @@
             <p>By: @Model.Recipe.Creator</p>
             <p>@Model.Recipe.Description</p>
         </div>
-        <div class="image-box">
-            <img src="./Icons/icons8-facebook-48 (1).png" alt="Facebook Logo" /> 
-            <img src="./Icons/icons8-instagram-48.png" alt="Instagram Logo" />
-            <img src="./Icons/pintrest.png" alt="Pintrest Logo" /> 
-            <img src="./Icons/icons8-twitter-circled-48.png" alt="Twitter Logo" /> 
+        <div style="padding-top: 50px;">
+            <img src="~/Icons/icons8-facebook.svg" alt="Group Logo" /> 
+            <img src="~/Icons/icons8-pinterest.svg" alt="Instagram Logo" />
+            <img src="~/Icons/icons8-twitter-circled.svg" alt="Pintrest Logo" /> 
+            <img src="~/Icons/icons8-instagram.svg" alt="Twitter Logo" /> 
         </div>
     </div>
     <div>
