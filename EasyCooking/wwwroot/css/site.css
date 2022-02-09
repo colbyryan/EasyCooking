@@ -64,6 +64,9 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+main {
+    animation: transitionIn 0.55s;
+}
 .footer {
   position: absolute;
   bottom: 0;
@@ -76,27 +79,11 @@ body {
     display: flex;
     flex-flow: row;
     color: blue;
+
 }
 .Image {
     width: 700px;
     height: 500px;
-}
-@include media-breakpoint-up(sm) h1{
-    html {
-        font-size: 1.2rem;
-    }
-}
-
-@include media-breakpoint-up(md) {
-    html {
-        font-size: 1.4rem;
-    }
-}
-
-@include media-breakpoint-up(lg) {
-    html {
-        font-size: 1.6rem;
-    }
 }
 
 #cards_landscape_wrap-2 {
@@ -182,6 +169,7 @@ body {
             font-size: 14px;
             letter-spacing: 1px;
             color: #000000;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         }
 
         #cards_landscape_wrap-2 .card-flyer .text-box h6 {
@@ -196,8 +184,15 @@ body {
         }
 
 .image-box-details img {
-    width: 500px;
+    width: 700px;
     height: auto;
+    border-radius: 10px;
+    margin-right: 15px;
+    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.50);
+}
+.image-box-details iframe {
+    width: 700px;
+    height: 450px;
     border-radius: 10px;
     margin-right: 15px;
     box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.50);
@@ -205,4 +200,83 @@ body {
 .description {
     width: 400px;
     margin-right: 15px;
+}
+
+.carousel-inner img {
+    width: 100%;
+    overflow: hidden;
+    height: auto;
+    -webkit-transform: translateY(-30%);
+    filter: blur(8px);
+    -webkit-animation-delay: 2s;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.carousel-caption h1 {
+    font-size: 500%;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 10px #000;
+}
+    .carousel-caption h2 {
+        font-size: 500%;
+        text-transform: uppercase;
+        text-shadow: 1px 1px 10px #000;
+    }
+.carousel-caption h3 {
+    font-size: 200%;
+    font-weight: 600;
+    text-shadow: 1px 1px 10px #000;
+    padding-bottom: 1rem;
+}
+.btn-primary {
+    background-color: #82cdff;
+    border: 1px solid rgba(0, 0, 0, .05);
+    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.50);
+}
+.image-box-1 {
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+
+.ingredients-table {
+    margin-left: 400px;
+    margin-top: 10px;
+}
+.input-button {
+    margin-left: 400px;
+    margin-top: 10px;
+}
+.direction-table{
+    margin-left: 375px;
+    margin-top: 10px;
+}
+.directions-h1 {
+    padding-right: 100px;
+}
+.favorites {
+    padding-left: 300px;
+    padding-top: 40px;
+    font-size: 2.3rem;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+.container-details {
+    padding-bottom: -100px;
 }

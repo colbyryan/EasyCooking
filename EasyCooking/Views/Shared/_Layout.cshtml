@@ -13,8 +13,8 @@
 </head>
 <body style="font-family:'Roboto'">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container-fluid">
                 <a class="navbar-brand" style="font-family: 'Handlee'; font-size: 2rem;" asp-area="" asp-controller="Home" asp-action="Index">EasyCooking</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -57,14 +57,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid" style="padding-left: 0px; padding-right: 0px">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container-fluid">
             &copy; 2020 - EasyCooking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>

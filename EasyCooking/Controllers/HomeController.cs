@@ -21,12 +21,14 @@ namespace EasyCooking.Controllers
         }
         
         [Authorize]
-        public IActionResult Index(string searching)
+        public IActionResult Index()
         {
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var userProfile = _userProfileRepository.GetById(userProfileId);
             ViewData["IsAdmin"] = userProfile.UserTypeId == 1;
-            return View(userProfile);
+            var currentUser = GetCurrentUserProfileId();
+            var recipe = _recipeRepository.GetByFavorited(currentUser);
+            return View(recipe);
 //This will return the "Index View" and pass in the user that we got by Id and stored in userProfile
         }
 
@@ -39,6 +41,11 @@ namespace EasyCooking.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        private int GetCurrentUserProfileId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
         }
     }
 }

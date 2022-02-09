@@ -66,13 +66,13 @@ namespace EasyCooking.Repositories
                         Recipe r = new Recipe
                         {
                             Id = Id,
-                            Title = Title, 
+                            Title = Title,
                             UserProfileId = UserProfileId,
                             CategoryId = CategoryId,
                             ImageUrl = ImageUrl,
                             VideoUrl = VideoUrl,
                             Creator = Creator,
-                            Description = Description, 
+                            Description = Description,
                             PrepTime = PrepTime,
                             CookTime = CookTime,
                             ServingAmount = ServingAmount,
@@ -121,7 +121,7 @@ namespace EasyCooking.Repositories
                             ServingAmount = reader.GetString(reader.GetOrdinal("ServingAmount")),
                         };
                         if (!reader.IsDBNull(reader.GetOrdinal("CategoryId")))
-                            {
+                        {
                             recipe.CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId"));
                             recipe.Category = new Category
                             {
@@ -220,6 +220,48 @@ namespace EasyCooking.Repositories
 
             }
         }
+        public List<Recipe> GetByFavorited(int Id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                select r.Id, r.Title, r.ImageUrl, r.Description, r.Creator
+                                from Favorites f
+                                LEFT JOIN Recipe r on r.Id = f.RecipeId
+                                LEFT JOIN UserProfile up on up.Id = f.UserProfileId
+                                where f.UserProfileId = @id";
 
+                    cmd.Parameters.AddWithValue("@id", Id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    List<Recipe> recipe = new List<Recipe>();
+                    while (reader.Read())
+                    {
+                        var RecipeId = reader.GetInt32(reader.GetOrdinal("Id"));
+                        var Title = reader.GetString(reader.GetOrdinal("Title"));
+                        var ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"));
+                        var Description = reader.GetString(reader.GetOrdinal("Description"));
+                        var Creator = reader.GetString(reader.GetOrdinal("Creator"));
+                        Recipe r = new Recipe
+                        {
+                            Id = RecipeId,
+                            Title = Title,
+                            ImageUrl = ImageUrl,
+                            Creator = Creator,
+                            Description = Description,
+                        };
+                        recipe.Add(r);
+                    }
+                    reader.Close();
+
+                    return recipe;
+                }
+            }
+        }
+    
     }
 }
