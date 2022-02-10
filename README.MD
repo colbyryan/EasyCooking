@@ -1,6 +1,6 @@
 # Easy Cooking
 
-![Home Page Image](https://github.com/colbyryan/EasyCooking/wwwroot/Images/EasyCookingHomePage.PNG?raw=t))
+![Home Page Image](https://github.com/colbyryan/EasyCooking/blob/main/EasyCooking/wwwroot/Images/EasyCookingHomePage.PNG?raw=t))
 
 > Easy Cooking, Easy recipes for delicious meals!
 
@@ -50,9 +50,9 @@ Run the Program
 
 ```
 
-![ERD Image](https://github.com/colbyryan/EasyCooking/wwwroot/Images/EasyCookingERD.PNG?raw=t))
+![ERD Image](https://github.com/colbyryan/EasyCooking/blob/main/EasyCooking/wwwroot/Images/EasyCookingERD.PNG?raw=t))
 
-![WireFrame Image](https://github.com/colbyryan/EasyCooking/wwwroot/Images/EasyCookingWireFrame.PNG?raw=t))
+![WireFrame Image](https://github.com/colbyryan/EasyCooking/blob/main/EasyCooking/wwwroot/Images/EasyCookingWireFrame.PNG?raw=t))
 
 [Back To The Top](#easy-cooking)
 
