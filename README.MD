@@ -18,7 +18,7 @@
 
 ### Description
 
-Easy Cooking is a website that allows people who are intemidated by cooking, and aren't familiar with a lot of authentic ingredients to be able to find
+##### Easy Cooking is a website that allows people who are intemidated by cooking, and aren't familiar with a lot of authentic ingredients to be able to find
 tastey, and easy recipes to start incorporating into their routine. 
 ---
 
