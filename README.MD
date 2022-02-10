@@ -39,16 +39,14 @@
 ## How To Use
 
 Clone this github repo to your local system. 
-
-```
+---
 Once you have launched the sln file you will need to create a new Data Base
-```
+---
 Copy and paste the raw contents of the EasyCooking.sql and EasyCooking_SeedQuery.sql files in that order inside of your query window
-```
+---
 Run the Program
 ---
 
-```
 
 ![ERD Image](https://github.com/colbyryan/EasyCooking/blob/main/EasyCooking/wwwroot/Images/EasyCookingERD.PNG?raw=t))
 
